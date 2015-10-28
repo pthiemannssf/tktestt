@@ -1,0 +1,20 @@
+<ion-view view-title="Menu" class="stable-bg">
+    <ion-nav-buttons side="left">
+        <button class="font button" nav-direction="exit" ng-click = "logout()">
+            Logout
+        </button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+        <button class="font button button-right" ui-sref="profile">
+            Profile
+        </button>
+    </ion-nav-buttons>
+    <ion-content class="font padding">
+        <button ng-click="takeTestButtonTapped()" class="font button button-block button-calm">
+            Take Test
+        </button>
+        <button class="font button button-block button-calm" ui-sref="history">
+            My Results
+        </button>
+    </ion-content>
+</ion-view>

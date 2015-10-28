@@ -1,0 +1,115 @@
+// Ionic Starter App
+
+// angular.module is a global place for creating, registering and retrieving Angular modules
+// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
+// the 2nd parameter is an array of 'requires'
+angular.module('starter', ['ionic', 'starter.controllers', 'RESTConnection', 'TKServicesModule', 'ngIOS9UIWebViewPatch', 'chart.js', 'SSFAlerts'])
+
+.run(["$ionicPlatform", "$window", "$state", function($ionicPlatform, $window, $state) {
+  $ionicPlatform.ready(function() {
+    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+    // for form inputs)
+    if(window.cordova && window.cordova.plugins.Keyboard) {
+      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+    }
+    if(window.StatusBar) {
+      StatusBar.styleDefault();
+    }
+   
+    if($window.localStorage["userID"]!==undefined)
+    {
+        $ionicHistory.nextViewOptions({
+            historyRoot: true,
+            disableBack: true
+        });
+        $state.go("lobby");
+    }
+  });
+}])
+.config(function($stateProvider, $urlRouterProvider) {
+  $urlRouterProvider.otherwise('/');
+  $stateProvider
+  .state('landing', {
+    url: '/',
+    templateUrl: 'templates/landing.html',
+  })
+  .state('register', {
+    url: '/register',
+    templateUrl: 'templates/register.html',
+    controller:'RegisterCtrl'
+  })
+  .state('login', {
+    url: '/login',
+    templateUrl: 'templates/login.html',
+    controller:'LoginCtrl'
+  })
+  .state('lobby', {
+    url: '/lobby',
+    templateUrl: 'templates/lobby.html',
+    controller: 'LobbyCtrl'
+  })
+  .state('test', {
+    abstract: true,
+    url: '/test',
+    template: '<ion-nav-view><ion-nav-view>'
+  })
+  .state('test.detail', {
+    url: '/question:testID',
+    templateUrl: 'templates/question.html',
+    controller: 'TestCtrl',
+    resolve: {
+      testInfo: function($stateParams, TKQuestionsService) {
+        return TKQuestionsService.getQuestion($stateParams.testID);
+      }
+    }
+  })
+  .state('results', {
+    cache:false,
+    url: '/results',
+    templateUrl: 'templates/results.html',
+    controller: 'ResultsCtrl'
+  })
+  .state('history', {
+    url: '/history',
+    templateUrl: 'templates/history.html',
+    controller:'HistoryCtrl'
+  })
+  .state('historyDetail', {
+    url: '/historyDetail',
+    templateUrl: 'templates/historyDetail.html',
+    controller: 'ResultsCtrl'
+  })
+  .state('profile', {
+    url: '/profile',
+    templateUrl: 'templates/profile.html',
+    controller: 'ProfileCtrl'
+  })
+})
+.run(["$rootScope", "$ionicHistory", "$state", "$window", function($rootScope, $ionicHistory, $state, $window) {
+  $rootScope.$on('request:auth', function() {
+    $ionicHistory.nextViewOptions({
+      historyRoot: true,
+      disableBack: true
+    });
+    delete $window.localStorage['token'];
+    delete $window.localStorage['userID'];
+    $state.go('landing');
+  });  
+}])
+.run(["$rootScope", "$ionicLoading", function($rootScope, $ionicLoading) {
+  $rootScope.$on('loading:show', function() {
+    $ionicLoading.show({
+      template: '<ion-spinner></ion-spinner>'
+    });
+  })
+  $rootScope.$on('loading:hide', function() {
+    $ionicLoading.hide();
+  });
+}])
+.controller('starterCtrl',['$scope','$state','$location',function($scope,$state,$location){
+
+    $scope.isState = function(states){
+      return $state.includes(states);
+    };
+    
+}]);

@@ -1,0 +1,43 @@
+<ion-view view-title="{{title}}">
+    <ion-nav-buttons side="left">
+        <button class="font button" ui-sref='lobby'>
+            Menu
+        </button>
+    </ion-nav-buttons>
+        <ion-content class="font padding">
+            <div class="font row">
+                <div class="font col">
+                    <div class="font card">
+                        <div class="font item item-divider">
+                            Option A
+                        </div>
+                        <div class="font item item-text-wrap" ng-style="{ 'height' : height}">
+                            {{questionA.Text}}
+                        </div>
+                    </div>
+                </div>
+                <div class="font col">
+                    <div class="font card">
+                        <div class="font item item-divider">
+                           Option B
+                        </div>
+                        <div class="font item item-text-wrap" ng-style="{ 'height' : height}">
+                            {{questionB.Text}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="font row">
+                <div class="font col">
+                    <button class="font button button-block button-postive" ng-click = "buttonClicked('A')">
+                        A
+                    </button>
+                </div>
+                <div class="font col">
+                    <button class="font button button-block button-postive" ng-click="buttonClicked('B')">
+                        B
+                    </button>
+                </div>
+            </div>
+        </ion-content>
+</ion-view>
