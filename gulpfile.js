@@ -6,7 +6,7 @@ gulp.task('test', function(done) {
     singleRun: true,
     autoWatch: false
   }, function() {
-  done().start;
+  done().;
   });
   
 });
